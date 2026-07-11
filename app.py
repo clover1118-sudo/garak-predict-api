@@ -166,6 +166,24 @@ def health():
     return jsonify({"status": "ok", "items_loaded": len(ITEM_NAMES)})
 
 
+def _cors(resp):
+    resp.headers["Access-Control-Allow-Origin"] = "*"
+    resp.headers["Cache-Control"] = "public, max-age=1800"  # 30분 캐시
+    return resp
+
+
+@app.route("/data/garak.json", methods=["GET"])
+def data_garak():
+    # 대시보드가 fetch()로 가져다 쓰는 최신 가락시장 데이터
+    return _cors(jsonify(GARAK_DATA))
+
+
+@app.route("/data/climate.json", methods=["GET"])
+def data_climate():
+    # 대시보드가 fetch()로 가져다 쓰는 최신 기후 데이터
+    return _cors(jsonify(CLIMATE_DATA))
+
+
 @app.route("/api/predict", methods=["POST"])
 def predict():
     body = request.get_json(silent=True) or {}
