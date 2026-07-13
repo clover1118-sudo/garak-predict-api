@@ -195,23 +195,7 @@ def main():
 
     date_str = target_date.strftime("%Y%m%d")
     iso_date = target_date.strftime("%Y-%m-%d")
-
-    added_garak = 0
-    if date_str not in existing_garak_dates:
-        new_rows = fetch_garak_day(target_date)
-        garak_data.extend(new_rows)
-        added_garak = len(new_rows)
-    else:
-        print(f"[INFO] 가락시장 {date_str} 데이터 이미 존재 — 스킵")
-
-    added_climate = 0
-    if iso_date not in existing_climate_dates:
-        new_rows = fetch_kma_day(target_date)
-        climate_data.extend(new_rows)
-        added_climate = len(new_rows)
-    else:
-        print(f"[INFO] 기후 {iso_date} 데이터 이미 존재 — 스킵")
-
+   
     if added_garak:
         save_json(GARAK_PATH, garak_data)
     if added_climate:
